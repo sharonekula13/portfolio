@@ -1,14 +1,8 @@
 import type { Metadata } from "next";
-import { Fraunces, Inter_Tight, JetBrains_Mono } from "next/font/google";
+import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
-const fraunces = Fraunces({
-  subsets: ["latin"],
-  variable: "--font-serif",
-  display: "swap",
-});
-
-const interTight = Inter_Tight({
+const inter = Inter({
   subsets: ["latin"],
   variable: "--font-sans",
   display: "swap",
@@ -21,8 +15,9 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Your Name — Software Engineer",
-  description: "Portfolio and selected works",
+  title: "Sharon Ekula — Software Engineer",
+  description:
+    "Software engineer building full-stack AI products. MS CS, NJIT.",
 };
 
 export default function RootLayout({
@@ -33,8 +28,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${fraunces.variable} ${interTight.variable} ${jetbrainsMono.variable} antialiased`}
-        style={{ fontFamily: "var(--font-serif), serif" }}
+        className={`${inter.variable} ${jetbrainsMono.variable} antialiased`}
+        style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
       >
         {children}
       </body>
