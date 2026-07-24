@@ -1,234 +1,261 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import { Reveal } from "@/components/reveal";
+
+function Constellation({ dark }: { dark: boolean }) {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d")!;
+
+    type Star = { x: number; y: number; r: number; o: number };
+    const stars: Star[] = [];
+    const lines: [Star, Star][] = [];
+
+    function init() {
+      const W = canvas!.width;
+      const H = canvas!.height;
+      stars.length = 0;
+      lines.length = 0;
+      for (let i = 0; i < 200; i++) {
+        stars.push({ x: Math.random() * W, y: Math.random() * H, r: Math.random() * 1.8 + 0.4, o: Math.random() * 0.8 + 0.2 });
+      }
+      const anchors = stars.filter((_, i) => i % 5 === 0);
+      for (let i = 0; i < anchors.length; i++) {
+        for (let j = i + 1; j < anchors.length; j++) {
+          const d = Math.hypot(anchors[i].x - anchors[j].x, anchors[i].y - anchors[j].y);
+          if (d < 150 && lines.length < 60) lines.push([anchors[i], anchors[j]]);
+        }
+      }
+    }
+
+    function draw() {
+      if (!canvas) return;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const isDark = dark;
+      lines.forEach(([a, b]) => {
+        ctx.beginPath();
+        ctx.moveTo(a.x, a.y);
+        ctx.lineTo(b.x, b.y);
+        ctx.strokeStyle = isDark ? "rgba(129,140,248,0.35)" : "rgba(79,70,229,0.15)";
+        ctx.lineWidth = 0.7;
+        ctx.stroke();
+      });
+      stars.forEach((s) => {
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+        ctx.fillStyle = isDark ? `rgba(180,185,255,${s.o})` : `rgba(99,102,241,${s.o * 0.5})`;
+        ctx.fill();
+      });
+    }
+
+    function resize() {
+      if (!canvas) return;
+      canvas.width = window.innerWidth;
+      canvas.height = document.documentElement.scrollHeight;
+      init();
+      draw();
+    }
+
+    resize();
+    window.addEventListener("resize", resize);
+    return () => window.removeEventListener("resize", resize);
+  }, [dark]);
+
+  return <canvas ref={canvasRef} style={{ position: "fixed", inset: 0, width: "100%", height: "100%", pointerEvents: "none", zIndex: 0 }} />;
+}
+
+const projects = [
+  {
+    title: "Gods Word",
+    tag: "AI Product · RAG · End-to-End",
+    description: "RAG-based chatbot built from scratch — no LangChain. Designed the retrieval logic, ChromaDB vector store, and prompt construction myself, then integrated a locally-hosted Llama 3 to generate grounded responses across three data sources.",
+    chips: ["RAG, no framework", "extending to agentic"],
+    stack: ["Python", "ChromaDB", "Ollama", "Llama 3", "Streamlit", "YouTube Data API"],
+    href: "#",
+  },
+  {
+    title: "Cloud-Native Image Recognition",
+    tag: "Computer Vision · AWS · Event-Driven",
+    description: "Pre-trained CNN via ONNX Runtime as a production microservice. Distributed S3 → SQS → EC2 pipeline with Auto Scaling, CloudWatch monitoring, and full Terraform IaC.",
+    chips: ["Event-driven arch", "Terraform IaC"],
+    stack: ["Python", "Spring Boot", "AWS", "ONNX", "Docker", "Terraform", "GitHub Actions"],
+    href: "#",
+  },
+];
+
+const skills = [
+  { label: "AI / LLM", hot: true, items: ["RAG Pipeline Design", "LLM Integration", "Embeddings", "Evaluation Frameworks", "Prompt Engineering", "Agentic Systems", "Ollama"] },
+  { label: "Machine Learning", hot: false, items: ["TensorFlow", "Scikit-learn", "Keras", "Neural Networks", "Model Evaluation"] },
+  { label: "Languages", hot: false, items: ["Python", "TypeScript", "Java", "SQL"] },
+  { label: "Backend", hot: false, items: ["FastAPI", "Spring Boot", "REST API", "PostgreSQL"] },
+  { label: "Cloud / DevOps", hot: false, items: ["AWS", "Docker", "Terraform", "GitHub Actions", "Linux"] },
+];
+
 export default function Home() {
+  const [dark, setDark] = useState(true);
+
+  const t = {
+    bg: dark ? "#080B14" : "#F4F5FF",
+    text: dark ? "#E8EAF6" : "#1A1A2E",
+    muted: dark ? "#7B82A8" : "#5C5F80",
+    dim: dark ? "#3A3F5C" : "#B0B3D6",
+    accent: dark ? "#818CF8" : "#4F46E5",
+    surface: dark ? "rgba(15,18,40,0.7)" : "rgba(255,255,255,0.8)",
+    border: dark ? "rgba(129,140,248,0.15)" : "rgba(79,70,229,0.12)",
+    card: dark ? "rgba(13,16,35,0.8)" : "rgba(255,255,255,0.9)",
+    navBg: dark ? "rgba(8,11,20,0.7)" : "rgba(244,245,255,0.8)",
+  };
+
   return (
-    <div className="relative min-h-screen bg-bg text-text">
-      {/* Ambient glow background */}
-      <div className="fixed inset-0 -z-10 pointer-events-none overflow-hidden">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-accent/10 rounded-full blur-[120px]" />
-        <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-purple-500/5 rounded-full blur-[120px]" />
-      </div>
+    <div style={{ background: t.bg, color: t.text, minHeight: "100vh", position: "relative", transition: "background 0.4s, color 0.4s", fontFamily: "system-ui, sans-serif" }}>
+      <Constellation dark={dark} />
 
-      {/* Subtle grid */}
-      <div
-        className="fixed inset-0 -z-10 opacity-[0.015] pointer-events-none"
-        style={{
-          backgroundImage:
-            "linear-gradient(to right, #fff 1px, transparent 1px), linear-gradient(to bottom, #fff 1px, transparent 1px)",
-          backgroundSize: "48px 48px",
-        }}
-      />
-
-      {/* Nav */}
-      <nav className="sticky top-0 z-50 backdrop-blur-xl bg-bg/60 border-b border-border">
-        <div className="max-w-3xl mx-auto px-6 py-4 flex justify-between items-center">
-          <a href="/" className="text-sm font-semibold tracking-tight">
-            sharon<span className="text-accent">.</span>
-          </a>
-          <div className="flex gap-6 text-sm text-text-muted">
-            <a href="#projects" className="hover:text-text transition-colors">Projects</a>
-            <a href="#skills" className="hover:text-text transition-colors">Skills</a>
-            <a href="#contact" className="hover:text-text transition-colors">Contact</a>
+      <div style={{ position: "relative", zIndex: 1 }}>
+        {/* NAV */}
+        <nav style={{ borderBottom: `1px solid ${t.border}`, padding: "16px 32px", display: "flex", justifyContent: "space-between", alignItems: "center", backdropFilter: "blur(16px)", background: t.navBg, position: "sticky", top: 0, zIndex: 50 }}>
+          <span style={{ fontFamily: "Georgia, serif", fontSize: 16, color: t.text, fontWeight: 600 }}>Sharon Ekula</span>
+          <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+            {["Projects", "Skills", "Contact"].map((l) => (
+              <a key={l} href={`#${l.toLowerCase()}`} style={{ fontSize: 12, padding: "6px 14px", borderRadius: 20, color: t.muted, textDecoration: "none" }}>{l}</a>
+            ))}
+            <button onClick={() => setDark(!dark)} style={{ width: 34, height: 34, borderRadius: 8, border: `1px solid ${t.border}`, background: t.surface, color: t.muted, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 15, marginLeft: 10 }}>
+              {dark ? "🌙" : "☀️"}
+            </button>
           </div>
-        </div>
-      </nav>
+        </nav>
 
-      <main className="max-w-3xl mx-auto px-6 py-20">
-        {/* Header */}
-        <header className="mb-24">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-border bg-surface text-xs text-text-muted mb-8" style={{ fontFamily: "var(--font-mono), monospace" }}>
-            <span className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-500 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
-            </span>
-            Available for full-time roles
-          </div>
+        {/* HERO */}
+        <header style={{ padding: "72px 32px 60px", display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", borderBottom: `1px solid ${t.border}` }}>
+          <Reveal>
+            <div style={{ display: "inline-flex", alignItems: "center", gap: 7, fontFamily: "monospace", fontSize: 11, color: "#6EE7B7", background: "rgba(110,231,183,0.07)", border: "1px solid rgba(110,231,183,0.2)", borderRadius: 20, padding: "5px 14px", marginBottom: 28 }}>
+              <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#6EE7B7", display: "inline-block" }} />
+              available for full-time roles
+            </div>
+          </Reveal>
 
-          <h1 className="text-5xl font-semibold tracking-tight bg-gradient-to-b from-white to-white/60 bg-clip-text text-transparent">
-            Sharon Ekula
-          </h1>
-          <p className="text-text-muted mt-3 text-sm" style={{ fontFamily: "var(--font-mono), monospace" }}>
-            software engineer / full-stack / ai &amp; llms
-          </p>
+          <Reveal delay={0.05}>
+            <div style={{ width: 110, height: 110, borderRadius: "50%", border: `2.5px solid ${t.accent}`, background: t.surface, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "Georgia, serif", fontSize: 34, color: t.accent, marginBottom: 24, boxShadow: `0 0 48px rgba(129,140,248,0.25)`, backdropFilter: "blur(8px)" }}>
+              SE
+            </div>
+          </Reveal>
 
-          <p className="text-text-muted mt-8 leading-relaxed text-[15px] max-w-xl">
-            MS in Computer Science from NJIT and AWS Certified AI Practitioner. I build full-stack AI products end-to-end — RAG pipelines, production APIs, and cloud infrastructure. Based in Newark, NJ.
-          </p>
+          <Reveal delay={0.1}>
+            <h1 style={{ fontFamily: "Georgia, serif", fontSize: 54, lineHeight: 1.05, color: t.text, letterSpacing: "-0.02em", marginBottom: 10 }}>Sharon Ekula</h1>
+          </Reveal>
 
-          <div className="flex flex-wrap gap-2 mt-8">
-            <a href="mailto:ekulasharon13@gmail.com" className="inline-flex items-center gap-2 px-4 py-2 text-sm bg-text text-bg rounded-lg hover:bg-white/90 transition-colors font-medium">
-              <span>Get in touch</span>
-              <span>→</span>
-            </a>
-            <a href="https://github.com/sharonekula13" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 text-sm border border-border bg-surface rounded-lg hover:bg-surface-hover hover:border-border-hover transition-all text-text-muted hover:text-text">
-              GitHub <span>↗</span>
-            </a>
-            <a href="https://linkedin.com/in/sharon-ekula" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 text-sm border border-border bg-surface rounded-lg hover:bg-surface-hover hover:border-border-hover transition-all text-text-muted hover:text-text">
-              LinkedIn <span>↗</span>
-            </a>
-            <a href="/resume.pdf" className="inline-flex items-center gap-2 px-4 py-2 text-sm border border-border bg-surface rounded-lg hover:bg-surface-hover hover:border-border-hover transition-all text-text-muted hover:text-text">
-              Résumé <span>↗</span>
-            </a>
-          </div>
+          <Reveal delay={0.13}>
+            <p style={{ fontSize: 14, color: t.muted, marginBottom: 22 }}>AI Engineer · Newark, NJ</p>
+          </Reveal>
+
+          <Reveal delay={0.16}>
+            <div style={{ display: "flex", gap: 6, flexWrap: "wrap", justifyContent: "center", marginBottom: 22 }}>
+              {[["RAG Systems", true], ["LLM Integration", true], ["AWS Certified", true], ["Cloud Infra", false], ["Agentic AI", false]].map(([p, hi]) => (
+                <span key={String(p)} style={{ fontFamily: "monospace", fontSize: 11, padding: "5px 13px", borderRadius: 20, border: `1px solid ${hi ? t.accent + "55" : t.border}`, color: hi ? t.accent : t.muted, background: hi ? (dark ? "rgba(129,140,248,0.1)" : "rgba(79,70,229,0.06)") : t.surface }}>
+                  {String(p)}
+                </span>
+              ))}
+            </div>
+          </Reveal>
+
+          <Reveal delay={0.2}>
+            <p style={{ fontSize: 14, color: t.muted, lineHeight: 1.8, maxWidth: 500, marginBottom: 32 }}>
+              MS in Computer Science from NJIT · AWS Certified AI Practitioner.<br />
+              I build AI systems end-to-end — RAG pipelines, evaluation harnesses, production APIs, and cloud infrastructure.
+            </p>
+          </Reveal>
+
+          <Reveal delay={0.24}>
+            <div style={{ display: "flex", gap: 8, flexWrap: "wrap", justifyContent: "center" }}>
+              <a href="#projects" style={{ padding: "11px 22px", background: t.accent, color: "#fff", borderRadius: 8, fontSize: 13, fontWeight: 500, textDecoration: "none" }}>→ View Projects</a>
+              <a href="/resume.pdf" style={{ padding: "10px 18px", color: t.muted, borderRadius: 8, fontSize: 13, border: `1px solid ${t.border}`, textDecoration: "none", background: t.surface, backdropFilter: "blur(4px)" }}>Résumé ↗</a>
+              <a href="https://github.com/sharonekula13" target="_blank" rel="noopener noreferrer" style={{ padding: "10px 18px", color: t.muted, borderRadius: 8, fontSize: 13, border: `1px solid ${t.border}`, textDecoration: "none", background: t.surface, backdropFilter: "blur(4px)" }}>GitHub ↗</a>
+              <a href="https://linkedin.com/in/sharon-ekula" target="_blank" rel="noopener noreferrer" style={{ padding: "10px 18px", color: t.muted, borderRadius: 8, fontSize: 13, border: `1px solid ${t.border}`, textDecoration: "none", background: t.surface, backdropFilter: "blur(4px)" }}>LinkedIn ↗</a>
+            </div>
+          </Reveal>
         </header>
 
-        {/* Projects */}
-        <section id="projects" className="mb-24 scroll-mt-20">
-          <div className="flex items-baseline justify-between mb-8">
-            <h2 className="text-sm uppercase tracking-wider text-text-muted">
-              <span className="text-accent mr-2">#</span>Projects
-            </h2>
-            <span className="text-xs text-text-dim" style={{ fontFamily: "var(--font-mono), monospace" }}>03</span>
-          </div>
-
-          <div className="space-y-3">
-            {/* Project 1 */}
-            <a href="#" className="group block p-6 border border-border bg-surface rounded-xl hover:border-border-hover hover:bg-surface-hover transition-all">
-              <div className="flex items-baseline justify-between flex-wrap gap-2 mb-3">
-                <h3 className="text-base font-semibold text-text">Agentic RAG Q&amp;A System</h3>
-                <span className="text-text-dim text-sm group-hover:text-accent group-hover:translate-x-1 transition-all">↗</span>
-              </div>
-              <p className="text-text-muted leading-relaxed text-sm mb-4">
-                End-to-end retrieval-augmented Q&amp;A over document corpora. Hybrid search (BM25 + dense FAISS embeddings) with page-level citation tracking. Runs Llama 3.2 locally via Ollama with token streaming for privacy.
-              </p>
-
-              <div className="flex gap-2 mb-4 flex-wrap">
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-accent/10 border border-accent/20 text-accent-glow rounded-md text-xs" style={{ fontFamily: "var(--font-mono), monospace" }}>
-                  <span className="opacity-60">Recall@5</span><span className="font-semibold">75%</span>
-                </span>
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-accent/10 border border-accent/20 text-accent-glow rounded-md text-xs" style={{ fontFamily: "var(--font-mono), monospace" }}>
-                  <span className="opacity-60">MRR</span><span className="font-semibold">47.92%</span>
-                </span>
-              </div>
-
-              <div className="flex flex-wrap gap-1.5 text-xs text-text-dim" style={{ fontFamily: "var(--font-mono), monospace" }}>
-                <span className="px-2 py-0.5 bg-bg border border-border rounded">Python</span>
-                <span className="px-2 py-0.5 bg-bg border border-border rounded">FastAPI</span>
-                <span className="px-2 py-0.5 bg-bg border border-border rounded">LangChain</span>
-                <span className="px-2 py-0.5 bg-bg border border-border rounded">FAISS</span>
-                <span className="px-2 py-0.5 bg-bg border border-border rounded">Ollama</span>
-                <span className="px-2 py-0.5 bg-bg border border-border rounded">Docker</span>
-              </div>
-            </a>
-
-            {/* Project 2 */}
-            <a href="#" className="group block p-6 border border-border bg-surface rounded-xl hover:border-border-hover hover:bg-surface-hover transition-all">
-              <div className="flex items-baseline justify-between flex-wrap gap-2 mb-3">
-                <h3 className="text-base font-semibold text-text">Full-Stack Web Platform</h3>
-                <span className="text-text-dim text-sm group-hover:text-accent group-hover:translate-x-1 transition-all">↗</span>
-              </div>
-              <p className="text-text-muted leading-relaxed text-sm mb-4">
-                Production-grade platform with JWT auth and role-based access across three user types. Jakarta Bean Validation and OpenAPI 3.0 spec, backed by a normalized PostgreSQL schema with indexed queries.
-              </p>
-
-              <div className="flex gap-2 mb-4 flex-wrap">
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-accent/10 border border-accent/20 text-accent-glow rounded-md text-xs" style={{ fontFamily: "var(--font-mono), monospace" }}>
-                  <span className="opacity-60">REST endpoints</span><span className="font-semibold">15+</span>
-                </span>
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-accent/10 border border-accent/20 text-accent-glow rounded-md text-xs" style={{ fontFamily: "var(--font-mono), monospace" }}>
-                  <span className="opacity-60">User roles</span><span className="font-semibold">3</span>
-                </span>
-              </div>
-
-              <div className="flex flex-wrap gap-1.5 text-xs text-text-dim" style={{ fontFamily: "var(--font-mono), monospace" }}>
-                <span className="px-2 py-0.5 bg-bg border border-border rounded">Java</span>
-                <span className="px-2 py-0.5 bg-bg border border-border rounded">Spring Boot</span>
-                <span className="px-2 py-0.5 bg-bg border border-border rounded">React</span>
-                <span className="px-2 py-0.5 bg-bg border border-border rounded">TypeScript</span>
-                <span className="px-2 py-0.5 bg-bg border border-border rounded">Postgres</span>
-                <span className="px-2 py-0.5 bg-bg border border-border rounded">Docker</span>
-              </div>
-            </a>
-
-            {/* Project 3 */}
-            <a href="#" className="group block p-6 border border-border bg-surface rounded-xl hover:border-border-hover hover:bg-surface-hover transition-all">
-              <div className="flex items-baseline justify-between flex-wrap gap-2 mb-3">
-                <h3 className="text-base font-semibold text-text">Cloud-Native Inference Service</h3>
-                <span className="text-text-dim text-sm group-hover:text-accent group-hover:translate-x-1 transition-all">↗</span>
-              </div>
-              <p className="text-text-muted leading-relaxed text-sm mb-4">
-                Distributed inference pipeline on AWS with an event-driven <code className="text-text bg-bg border border-border px-1.5 py-0.5 rounded text-[12px]" style={{ fontFamily: "var(--font-mono), monospace" }}>S3 → SQS → EC2</code> worker architecture. Auto Scaling triggered by CloudWatch queue-depth alarms; ONNX Runtime behind a JWT-secured Spring Boot API.
-              </p>
-
-              <div className="flex gap-2 mb-4 flex-wrap">
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-accent/10 border border-accent/20 text-accent-glow rounded-md text-xs" style={{ fontFamily: "var(--font-mono), monospace" }}>
-                  <span className="opacity-60">Architecture</span><span className="font-semibold">Event-driven</span>
-                </span>
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-accent/10 border border-accent/20 text-accent-glow rounded-md text-xs" style={{ fontFamily: "var(--font-mono), monospace" }}>
-                  <span className="opacity-60">IaC</span><span className="font-semibold">Terraform</span>
-                </span>
-              </div>
-
-              <div className="flex flex-wrap gap-1.5 text-xs text-text-dim" style={{ fontFamily: "var(--font-mono), monospace" }}>
-                <span className="px-2 py-0.5 bg-bg border border-border rounded">AWS</span>
-                <span className="px-2 py-0.5 bg-bg border border-border rounded">Spring Boot</span>
-                <span className="px-2 py-0.5 bg-bg border border-border rounded">ONNX</span>
-                <span className="px-2 py-0.5 bg-bg border border-border rounded">Terraform</span>
-                <span className="px-2 py-0.5 bg-bg border border-border rounded">GitHub Actions</span>
-              </div>
-            </a>
-          </div>
-        </section>
-
-        {/* Skills */}
-        <section id="skills" className="mb-24 scroll-mt-20">
-          <h2 className="text-sm uppercase tracking-wider text-text-muted mb-8">
-            <span className="text-accent mr-2">#</span>Skills
-          </h2>
-
-          <div className="space-y-5">
-            {[
-              { label: "Languages", items: ["Python", "TypeScript", "JavaScript", "Java", "SQL", "Bash"] },
-              { label: "Frontend", items: ["React", "TypeScript", "Tailwind", "Next.js"] },
-              { label: "Backend", items: ["FastAPI", "Spring Boot", "REST", "GraphQL", "JWT", "OpenAPI"] },
-              { label: "Data", items: ["PostgreSQL", "MySQL", "FAISS", "Event-driven"] },
-              { label: "AI / LLM", items: ["LangChain", "RAG", "Hybrid Retrieval", "Embeddings", "Ollama", "ONNX"] },
-              { label: "Cloud / DevOps", items: ["AWS", "Docker", "Terraform", "GitHub Actions", "Linux"] },
-            ].map((group) => (
-              <div key={group.label} className="grid grid-cols-1 md:grid-cols-[140px_1fr] gap-3 md:gap-6">
-                <div className="text-xs uppercase tracking-wider text-text-dim pt-1.5" style={{ fontFamily: "var(--font-mono), monospace" }}>
-                  {group.label}
+        {/* PROJECTS */}
+        <section id="projects" style={{ padding: "44px 32px", borderBottom: `1px solid ${t.border}` }}>
+          <Reveal>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 26 }}>
+              <h2 style={{ fontFamily: "Georgia, serif", fontSize: 22, color: t.text }}>Projects</h2>
+              <span style={{ fontFamily: "monospace", fontSize: 10, color: t.accent, background: dark ? "rgba(129,140,248,0.08)" : "rgba(79,70,229,0.06)", border: `1px solid ${t.accent}33`, padding: "3px 10px", borderRadius: 20 }}>02</span>
+            </div>
+          </Reveal>
+          <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+            {projects.map((p, i) => (
+              <Reveal key={p.title} delay={i * 0.08}>
+                <div style={{ background: t.card, border: `1px solid ${t.border}`, borderRadius: 14, padding: "22px 24px", backdropFilter: "blur(12px)" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 4 }}>
+                    <h3 style={{ fontFamily: "Georgia, serif", fontSize: 18, color: t.text }}>{p.title}</h3>
+                    <span style={{ color: t.dim, fontSize: 14 }}>↗</span>
+                  </div>
+                  <p style={{ fontFamily: "monospace", fontSize: 10, color: t.accent, textTransform: "uppercase", letterSpacing: "0.07em", marginBottom: 10 }}>{p.tag}</p>
+                  <p style={{ fontSize: 13, color: t.muted, lineHeight: 1.7, marginBottom: 14 }}>{p.description}</p>
+                  <div style={{ display: "flex", gap: 5, flexWrap: "wrap", marginBottom: 10 }}>
+                    {p.chips.map((c) => (
+                      <span key={c} style={{ fontFamily: "monospace", fontSize: 10, padding: "3px 10px", borderRadius: 20, background: dark ? "rgba(129,140,248,0.08)" : "rgba(79,70,229,0.06)", color: t.accent, border: `1px solid ${t.accent}33` }}>{c}</span>
+                    ))}
+                  </div>
+                  <div style={{ display: "flex", gap: 5, flexWrap: "wrap" }}>
+                    {p.stack.map((s) => (
+                      <span key={s} style={{ fontFamily: "monospace", fontSize: 10, padding: "2px 8px", borderRadius: 4, background: dark ? "rgba(255,255,255,0.03)" : "rgba(0,0,0,0.03)", color: t.dim, border: `1px solid ${t.border}` }}>{s}</span>
+                    ))}
+                  </div>
                 </div>
-                <div className="flex flex-wrap gap-1.5">
-                  {group.items.map((item) => (
-                    <span key={item} className="inline-flex items-center px-2.5 py-1 text-xs bg-surface border border-border rounded-md text-text-muted hover:border-border-hover hover:text-text transition-colors" style={{ fontFamily: "var(--font-mono), monospace" }}>
-                      {item}
-                    </span>
-                  ))}
-                </div>
-              </div>
+              </Reveal>
             ))}
           </div>
         </section>
 
-        {/* Contact */}
-        <section id="contact" className="mb-24 scroll-mt-20">
-          <h2 className="text-sm uppercase tracking-wider text-text-muted mb-8">
-            <span className="text-accent mr-2">#</span>Contact
-          </h2>
-
-          <div className="relative overflow-hidden p-8 border border-border bg-surface rounded-2xl">
-            <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-purple-500/5 pointer-events-none" />
-            <div className="relative">
-              <h3 className="text-2xl font-semibold mb-3 bg-gradient-to-b from-white to-white/70 bg-clip-text text-transparent">
-                Let&apos;s build something.
-              </h3>
-              <p className="text-text-muted leading-relaxed mb-6 max-w-md text-[15px]">
-                I&apos;m looking for full-time software engineering roles. If you&apos;re hiring or building something interesting, I&apos;d love to hear from you.
-              </p>
-              <a href="mailto:ekulasharon13@gmail.com" className="inline-flex items-center gap-2 px-5 py-2.5 bg-text text-bg rounded-lg hover:bg-white/90 transition-colors text-sm font-medium">
-                ekulasharon13@gmail.com <span>→</span>
-              </a>
-            </div>
+        {/* SKILLS */}
+        <section id="skills" style={{ padding: "44px 32px", borderBottom: `1px solid ${t.border}` }}>
+          <Reveal>
+            <h2 style={{ fontFamily: "Georgia, serif", fontSize: 22, color: t.text, marginBottom: 26 }}>Skills</h2>
+          </Reveal>
+          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+            {skills.map((g, i) => (
+              <Reveal key={g.label} delay={i * 0.05}>
+                <div style={{ display: "grid", gridTemplateColumns: "130px 1fr", gap: 12, alignItems: "start" }}>
+                  <span style={{ fontFamily: "monospace", fontSize: 10, textTransform: "uppercase", letterSpacing: "0.08em", color: t.dim, paddingTop: 5 }}>{g.label}</span>
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: 5 }}>
+                    {g.items.map((item, j) => {
+                      const hi = g.hot && j < 4;
+                      return (
+                        <span key={item} style={{ fontSize: 11, padding: "4px 10px", borderRadius: 6, border: `1px solid ${hi ? t.accent + "44" : t.border}`, color: hi ? t.accent : t.muted, background: hi ? (dark ? "rgba(129,140,248,0.08)" : "rgba(79,70,229,0.06)") : t.card, fontWeight: hi ? 500 : 400 }}>{item}</span>
+                      );
+                    })}
+                  </div>
+                </div>
+              </Reveal>
+            ))}
           </div>
         </section>
 
-        {/* Footer */}
-        <footer className="border-t border-border pt-6 text-xs text-text-dim flex justify-between flex-wrap gap-2" style={{ fontFamily: "var(--font-mono), monospace" }}>
-          <span>© 2026 sharon ekula</span>
-          <a href="https://github.com/sharonekula13/portfolio" target="_blank" rel="noopener noreferrer" className="hover:text-text transition-colors">
-            built with next.js · source ↗
-          </a>
+        {/* CONTACT */}
+        <section id="contact" style={{ padding: "44px 32px" }}>
+          <Reveal>
+            <div style={{ background: t.card, border: `1px solid ${t.border}`, borderRadius: 16, padding: "36px 32px", backdropFilter: "blur(12px)", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 20 }}>
+              <div>
+                <h2 style={{ fontFamily: "Georgia, serif", fontSize: 28, color: t.text, marginBottom: 10 }}>Let's build something.</h2>
+                <p style={{ fontSize: 13, color: t.muted, maxWidth: 360, lineHeight: 1.7 }}>Looking for full-time AI Engineer roles. If you're hiring or building something interesting, reach out.</p>
+              </div>
+              <a href="mailto:ekulasharon13@gmail.com" style={{ padding: "12px 26px", background: t.accent, color: "#fff", borderRadius: 8, fontSize: 13, fontWeight: 500, textDecoration: "none", whiteSpace: "nowrap" }}>Get in touch →</a>
+            </div>
+          </Reveal>
+        </section>
+
+        <footer style={{ padding: "16px 32px", display: "flex", justifyContent: "space-between", fontFamily: "monospace", fontSize: 10, color: t.dim, borderTop: `1px solid ${t.border}` }}>
+          <span>© 2026 Sharon Ekula</span>
+          <a href="https://github.com/sharonekula13/portfolio" target="_blank" rel="noopener noreferrer" style={{ color: t.dim, textDecoration: "none" }}>built with next.js · source ↗</a>
         </footer>
-      </main>
+      </div>
+
+      <style>{`@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }`}</style>
     </div>
   );
 }
