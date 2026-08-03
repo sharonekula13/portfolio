@@ -235,6 +235,21 @@ export default function Home() {
           </div>
         </section>
 
+        {/* PUBLICATION */}
+<section style={{ padding: "44px 32px", borderBottom: `1px solid ${t.border}` }}>
+  <Reveal>
+    <h2 style={{ fontFamily: "Georgia, serif", fontSize: 22, color: t.text, marginBottom: 26 }}>Publication</h2>
+  </Reveal>
+  <Reveal delay={0.05}>
+    <div style={{ background: t.card, border: `1px solid ${t.border}`, borderRadius: 14, padding: "22px 24px", backdropFilter: "blur(12px)" }}>
+      <p style={{ fontFamily: "monospace", fontSize: 10, color: t.accent, textTransform: "uppercase", letterSpacing: "0.07em", marginBottom: 8 }}>Research Paper · ICICT, 2023</p>
+      <p style={{ fontSize: 14, color: t.text, lineHeight: 1.7 }}>
+        "Hybrid Ensemble Deep Learning for Sleep Quality Prediction Using Wearable IoT Sensors"
+      </p>
+    </div>
+  </Reveal>
+</section>
+
         {/* CONTACT */}
         <section id="contact" style={{ padding: "44px 32px" }}>
           <Reveal>
