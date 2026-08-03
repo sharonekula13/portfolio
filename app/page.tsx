@@ -244,7 +244,7 @@ export default function Home() {
     <div style={{ background: t.card, border: `1px solid ${t.border}`, borderRadius: 14, padding: "22px 24px", backdropFilter: "blur(12px)" }}>
       <p style={{ fontFamily: "monospace", fontSize: 10, color: t.accent, textTransform: "uppercase", letterSpacing: "0.07em", marginBottom: 8 }}>Research Paper · ICICT, 2023</p>
       <p style={{ fontSize: 14, color: t.text, lineHeight: 1.7 }}>
-        "Hybrid Ensemble Deep Learning for Sleep Quality Prediction Using Wearable IoT Sensors"
+        Hybrid Ensemble Deep Learning for Sleep Quality Prediction Using Wearable IoT Sensors
       </p>
     </div>
   </Reveal>
