@@ -71,18 +71,18 @@ function Constellation({ dark }: { dark: boolean }) {
 const projects = [
   {
     title: "Gods Word",
-    tag: "AI Product · RAG · End-to-End",
-    description: "RAG-based chatbot built from scratch — no LangChain. Designed the retrieval logic, ChromaDB vector store, and prompt construction myself, then integrated a locally-hosted Llama 3 to generate grounded responses across three data sources.",
-    chips: ["RAG, no framework", "extending to agentic"],
+    tag: "AI Product · RAG · Conversational AI",
+    description: "Production conversational AI system built from scratch — no LangChain. Designed every layer: chunking strategy, ChromaDB vector store, semantic retrieval logic, and prompt construction, grounding a locally-hosted Llama 3 across 31,100+ documents from three heterogeneous sources.",
+    chips: ["RAG, no framework", "multi-turn memory", "extending to agentic"],
     stack: ["Python", "ChromaDB", "Ollama", "Llama 3", "Streamlit", "YouTube Data API"],
     href: "#",
   },
   {
-    title: "Cloud-Native Image Recognition",
-    tag: "Computer Vision · AWS · Event-Driven",
-    description: "Pre-trained CNN via ONNX Runtime as a production microservice. Distributed S3 → SQS → EC2 pipeline with Auto Scaling, CloudWatch monitoring, and full Terraform IaC.",
-    chips: ["Event-driven arch", "Terraform IaC"],
-    stack: ["Python", "Spring Boot", "AWS", "ONNX", "Docker", "Terraform", "GitHub Actions"],
+    title: "SDLC Delivery Intelligence",
+    tag: "Multi-Agent Platform · Agentic AI",
+    description: "Multi-agent orchestration platform where four specialized agents — architecture discovery, requirement analysis, risk assessment, and sprint planning — collaborate autonomously to replace manual cross-functional coordination. Built on Google ADK with tree-sitter AST parsing and NetworkX dependency graphs to ground every agent output in real source-code structure.",
+    chips: ["Multi-agent orchestration", "semantic code search", "Jira integration"],
+    stack: ["Python", "Google ADK", "Qdrant", "FastAPI", "React", "PostgreSQL", "tree-sitter", "Jira API"],
     href: "#",
   },
 ];
