@@ -164,7 +164,7 @@ export default function Home() {
           <Reveal delay={0.2}>
             <p style={{ fontSize: 14, color: t.muted, lineHeight: 1.8, maxWidth: 500, marginBottom: 32 }}>
               MS in Computer Science from NJIT · AWS Certified AI Practitioner.<br />
-              I build AI systems end-to-end — RAG pipelines, evaluation harnesses, production APIs, and cloud infrastructure.
+              AI Engineer building production RAG systems and multi-agent platforms. MS CS, NJIT · AWS Certified AI Practitioner.
             </p>
           </Reveal>
 
