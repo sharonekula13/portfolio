@@ -122,52 +122,49 @@ function Constellation({ dark }: { dark: boolean }) {
 
 const projects = [
   {
-    title: "Gods Word",
-    tag: "AI Product · RAG · Conversational AI",
+    title: "God’s Word",
+    tag: "Conversational AI · RAG · LLM",
 
     description:
-      "Production conversational AI system built from scratch — no LangChain. Designed every layer: chunking strategy, ChromaDB vector store, semantic retrieval logic, and prompt construction, grounding a locally-hosted Llama 3 across 31,100+ documents from three heterogeneous sources.",
+      "Conversational AI system built with a custom RAG pipeline using Python, ChromaDB, and Llama 3. I designed the ingestion, chunking, semantic retrieval, prompt construction, evaluation, multi-turn memory, and Telugu sermon translation workflow across 31,100+ documents.",
 
     chips: [
-      "RAG, no framework",
-      "multi-turn memory",
-      "extending to agentic",
+      "Custom RAG pipeline",
+      "Semantic retrieval",
+      "LLM evaluation",
     ],
 
     stack: [
       "Python",
       "ChromaDB",
-      "Ollama",
       "Llama 3",
       "Streamlit",
-      "YouTube Data API",
+      "RAG",
     ],
 
     href: "#",
   },
 
   {
-    title: "SDLC Delivery Intelligence",
-    tag: "Multi-Agent Platform · Agentic AI",
+    title: "FinSight",
+    tag: "Multi-Agent RAG · Financial AI",
 
     description:
-      "Multi-agent orchestration platform where four specialized agents — architecture discovery, requirement analysis, risk assessment, and sprint planning — collaborate autonomously to replace manual cross-functional coordination. Built on Google ADK with tree-sitter AST parsing and NetworkX dependency graphs to ground every agent output in real source-code structure.",
+      "Multi-agent RAG system for researching SEC filings. It uses specialized router, retriever, analyst, and verifier agents to find relevant information, analyze filings, and verify responses before returning the final answer.",
 
     chips: [
-      "Multi-agent orchestration",
-      "semantic code search",
-      "Jira integration",
+      "Multi-agent workflow",
+      "RAG over SEC filings",
+      "Automated evaluation",
     ],
 
     stack: [
       "Python",
-      "Google ADK",
-      "Qdrant",
+      "Gemini API",
       "FastAPI",
-      "React",
-      "PostgreSQL",
-      "tree-sitter",
-      "Jira API",
+      "Docker",
+      "Terraform",
+      "AWS",
     ],
 
     href: "#",
@@ -277,14 +274,11 @@ export default function Home() {
           style={{
             borderBottom: `1px solid ${t.border}`,
             padding: "16px 32px",
-
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
-
             backdropFilter: "blur(16px)",
             background: t.navBg,
-
             position: "sticky",
             top: 0,
             zIndex: 50,
@@ -331,16 +325,12 @@ export default function Home() {
                 height: 34,
                 borderRadius: 8,
                 border: `1px solid ${t.border}`,
-
                 background: t.surface,
                 color: t.muted,
-
                 cursor: "pointer",
-
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-
                 fontSize: 15,
                 marginLeft: 10,
               }}
@@ -354,13 +344,10 @@ export default function Home() {
         <header
           style={{
             padding: "72px 32px 60px",
-
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-
             textAlign: "center",
-
             borderBottom: `1px solid ${t.border}`,
           }}
         >
@@ -370,18 +357,13 @@ export default function Home() {
                 display: "inline-flex",
                 alignItems: "center",
                 gap: 7,
-
                 fontFamily: "monospace",
                 fontSize: 11,
-
                 color: "#6EE7B7",
-
                 background: "rgba(110,231,183,0.07)",
                 border: "1px solid rgba(110,231,183,0.2)",
-
                 borderRadius: 20,
                 padding: "5px 14px",
-
                 marginBottom: 28,
               }}
             >
@@ -404,26 +386,17 @@ export default function Home() {
               style={{
                 width: 110,
                 height: 110,
-
                 borderRadius: "50%",
                 border: `2.5px solid ${t.accent}`,
-
                 background: t.surface,
-
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-
                 fontFamily: "Georgia, serif",
                 fontSize: 34,
-
                 color: t.accent,
-
                 marginBottom: 24,
-
-                boxShadow:
-                  "0 0 48px rgba(129,140,248,0.25)",
-
+                boxShadow: "0 0 48px rgba(129,140,248,0.25)",
                 backdropFilter: "blur(8px)",
               }}
             >
@@ -437,9 +410,7 @@ export default function Home() {
                 fontFamily: "Georgia, serif",
                 fontSize: 54,
                 lineHeight: 1.05,
-
                 color: t.text,
-
                 letterSpacing: "-0.02em",
                 marginBottom: 10,
               }}
@@ -482,17 +453,12 @@ export default function Home() {
                   style={{
                     fontFamily: "monospace",
                     fontSize: 11,
-
                     padding: "5px 13px",
-
                     borderRadius: 20,
-
                     border: `1px solid ${
                       hi ? t.accent + "55" : t.border
                     }`,
-
                     color: hi ? t.accent : t.muted,
-
                     background: hi
                       ? dark
                         ? "rgba(129,140,248,0.1)"
@@ -511,17 +477,14 @@ export default function Home() {
               style={{
                 fontSize: 14,
                 color: t.muted,
-
                 lineHeight: 1.8,
-
                 maxWidth: 560,
                 marginBottom: 32,
               }}
             >
-              Software Engineer focused on backend and AI systems,
-              building REST APIs, RAG applications, multi-agent
-              workflows, and cloud-ready services with Python,
-              FastAPI, LLMs, and AWS.
+              Software Engineer focused on backend and AI systems, building REST
+              APIs, RAG applications, multi-agent workflows, and cloud-ready
+              services with Python, FastAPI, LLMs, and AWS.
             </p>
           </Reveal>
 
@@ -538,15 +501,11 @@ export default function Home() {
                 href="#projects"
                 style={{
                   padding: "11px 22px",
-
                   background: t.accent,
                   color: "#fff",
-
                   borderRadius: 8,
-
                   fontSize: 13,
                   fontWeight: 500,
-
                   textDecoration: "none",
                 }}
               >
@@ -557,19 +516,12 @@ export default function Home() {
                 href="/resume.pdf"
                 style={{
                   padding: "10px 18px",
-
                   color: t.muted,
-
                   borderRadius: 8,
-
                   fontSize: 13,
-
                   border: `1px solid ${t.border}`,
-
                   textDecoration: "none",
-
                   background: t.surface,
-
                   backdropFilter: "blur(4px)",
                 }}
               >
@@ -582,19 +534,12 @@ export default function Home() {
                 rel="noopener noreferrer"
                 style={{
                   padding: "10px 18px",
-
                   color: t.muted,
-
                   borderRadius: 8,
-
                   fontSize: 13,
-
                   border: `1px solid ${t.border}`,
-
                   textDecoration: "none",
-
                   background: t.surface,
-
                   backdropFilter: "blur(4px)",
                 }}
               >
@@ -607,19 +552,12 @@ export default function Home() {
                 rel="noopener noreferrer"
                 style={{
                   padding: "10px 18px",
-
                   color: t.muted,
-
                   borderRadius: 8,
-
                   fontSize: 13,
-
                   border: `1px solid ${t.border}`,
-
                   textDecoration: "none",
-
                   background: t.surface,
-
                   backdropFilter: "blur(4px)",
                 }}
               >
@@ -660,17 +598,12 @@ export default function Home() {
                 style={{
                   fontFamily: "monospace",
                   fontSize: 10,
-
                   color: t.accent,
-
                   background: dark
                     ? "rgba(129,140,248,0.08)"
                     : "rgba(79,70,229,0.06)",
-
                   border: `1px solid ${t.accent}33`,
-
                   padding: "3px 10px",
-
                   borderRadius: 20,
                 }}
               >
@@ -687,20 +620,13 @@ export default function Home() {
             }}
           >
             {projects.map((p, i) => (
-              <Reveal
-                key={p.title}
-                delay={i * 0.08}
-              >
+              <Reveal key={p.title} delay={i * 0.08}>
                 <div
                   style={{
                     background: t.card,
-
                     border: `1px solid ${t.border}`,
-
                     borderRadius: 14,
-
                     padding: "22px 24px",
-
                     backdropFilter: "blur(12px)",
                   }}
                 >
@@ -709,7 +635,6 @@ export default function Home() {
                       display: "flex",
                       justifyContent: "space-between",
                       alignItems: "flex-start",
-
                       marginBottom: 4,
                     }}
                   >
@@ -737,12 +662,9 @@ export default function Home() {
                     style={{
                       fontFamily: "monospace",
                       fontSize: 10,
-
                       color: t.accent,
-
                       textTransform: "uppercase",
                       letterSpacing: "0.07em",
-
                       marginBottom: 10,
                     }}
                   >
@@ -753,9 +675,7 @@ export default function Home() {
                     style={{
                       fontSize: 13,
                       color: t.muted,
-
                       lineHeight: 1.7,
-
                       marginBottom: 14,
                     }}
                   >
@@ -767,7 +687,6 @@ export default function Home() {
                       display: "flex",
                       gap: 5,
                       flexWrap: "wrap",
-
                       marginBottom: 10,
                     }}
                   >
@@ -777,17 +696,12 @@ export default function Home() {
                         style={{
                           fontFamily: "monospace",
                           fontSize: 10,
-
                           padding: "3px 10px",
-
                           borderRadius: 20,
-
                           background: dark
                             ? "rgba(129,140,248,0.08)"
                             : "rgba(79,70,229,0.06)",
-
                           color: t.accent,
-
                           border: `1px solid ${t.accent}33`,
                         }}
                       >
@@ -809,17 +723,12 @@ export default function Home() {
                         style={{
                           fontFamily: "monospace",
                           fontSize: 10,
-
                           padding: "2px 8px",
-
                           borderRadius: 4,
-
                           background: dark
                             ? "rgba(255,255,255,0.03)"
                             : "rgba(0,0,0,0.03)",
-
                           color: t.dim,
-
                           border: `1px solid ${t.border}`,
                         }}
                       >
@@ -847,7 +756,6 @@ export default function Home() {
                 fontFamily: "Georgia, serif",
                 fontSize: 22,
                 color: t.text,
-
                 marginBottom: 26,
               }}
             >
@@ -863,17 +771,12 @@ export default function Home() {
             }}
           >
             {skills.map((g, i) => (
-              <Reveal
-                key={g.label}
-                delay={i * 0.05}
-              >
+              <Reveal key={g.label} delay={i * 0.05}>
                 <div
                   style={{
                     display: "grid",
                     gridTemplateColumns: "130px 1fr",
-
                     gap: 12,
-
                     alignItems: "start",
                   }}
                 >
@@ -881,12 +784,9 @@ export default function Home() {
                     style={{
                       fontFamily: "monospace",
                       fontSize: 10,
-
                       textTransform: "uppercase",
                       letterSpacing: "0.08em",
-
                       color: t.dim,
-
                       paddingTop: 5,
                     }}
                   >
@@ -908,27 +808,17 @@ export default function Home() {
                           key={item}
                           style={{
                             fontSize: 11,
-
                             padding: "4px 10px",
-
                             borderRadius: 6,
-
                             border: `1px solid ${
-                              hi
-                                ? t.accent + "44"
-                                : t.border
+                              hi ? t.accent + "44" : t.border
                             }`,
-
-                            color: hi
-                              ? t.accent
-                              : t.muted,
-
+                            color: hi ? t.accent : t.muted,
                             background: hi
                               ? dark
                                 ? "rgba(129,140,248,0.08)"
                                 : "rgba(79,70,229,0.06)"
                               : t.card,
-
                             fontWeight: hi ? 500 : 400,
                           }}
                         >
@@ -967,13 +857,9 @@ export default function Home() {
             <div
               style={{
                 background: t.card,
-
                 border: `1px solid ${t.border}`,
-
                 borderRadius: 14,
-
                 padding: "22px 24px",
-
                 backdropFilter: "blur(12px)",
               }}
             >
@@ -981,12 +867,9 @@ export default function Home() {
                 style={{
                   fontFamily: "monospace",
                   fontSize: 10,
-
                   color: t.accent,
-
                   textTransform: "uppercase",
                   letterSpacing: "0.07em",
-
                   marginBottom: 8,
                 }}
               >
@@ -1000,9 +883,8 @@ export default function Home() {
                   lineHeight: 1.7,
                 }}
               >
-                Hybrid Ensemble Deep Learning for Sleep
-                Quality Prediction Using Wearable IoT
-                Sensors
+                Hybrid Ensemble Deep Learning for Sleep Quality Prediction Using
+                Wearable IoT Sensors
               </p>
             </div>
           </Reveal>
@@ -1019,22 +901,14 @@ export default function Home() {
             <div
               style={{
                 background: t.card,
-
                 border: `1px solid ${t.border}`,
-
                 borderRadius: 16,
-
                 padding: "36px 32px",
-
                 backdropFilter: "blur(12px)",
-
                 display: "flex",
-
                 justifyContent: "space-between",
                 alignItems: "center",
-
                 flexWrap: "wrap",
-
                 gap: 20,
               }}
             >
@@ -1043,9 +917,7 @@ export default function Home() {
                   style={{
                     fontFamily: "Georgia, serif",
                     fontSize: 28,
-
                     color: t.text,
-
                     marginBottom: 10,
                   }}
                 >
@@ -1055,18 +927,14 @@ export default function Home() {
                 <p
                   style={{
                     fontSize: 13,
-
                     color: t.muted,
-
                     maxWidth: 400,
-
                     lineHeight: 1.7,
                   }}
                 >
-                  Open to Software Engineer and AI / GenAI
-                  Engineer opportunities. If you're hiring or
-                  building something interesting, I'd love to
-                  connect.
+                  Open to Software Engineer and AI / GenAI Engineer
+                  opportunities. If you're hiring or building something
+                  interesting, I'd love to connect.
                 </p>
               </div>
 
@@ -1074,17 +942,12 @@ export default function Home() {
                 href="mailto:ekulasharon13@gmail.com"
                 style={{
                   padding: "12px 26px",
-
                   background: t.accent,
                   color: "#fff",
-
                   borderRadius: 8,
-
                   fontSize: 13,
                   fontWeight: 500,
-
                   textDecoration: "none",
-
                   whiteSpace: "nowrap",
                 }}
               >
@@ -1097,15 +960,11 @@ export default function Home() {
         <footer
           style={{
             padding: "16px 32px",
-
             display: "flex",
             justifyContent: "space-between",
-
             fontFamily: "monospace",
             fontSize: 10,
-
             color: t.dim,
-
             borderTop: `1px solid ${t.border}`,
           }}
         >
