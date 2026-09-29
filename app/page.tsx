@@ -59,14 +59,12 @@ function Constellation({ dark }: { dark: boolean }) {
 
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      const isDark = dark;
-
       lines.forEach(([a, b]) => {
         ctx.beginPath();
         ctx.moveTo(a.x, a.y);
         ctx.lineTo(b.x, b.y);
 
-        ctx.strokeStyle = isDark
+        ctx.strokeStyle = dark
           ? "rgba(129,140,248,0.35)"
           : "rgba(79,70,229,0.15)";
 
@@ -78,7 +76,7 @@ function Constellation({ dark }: { dark: boolean }) {
         ctx.beginPath();
         ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
 
-        ctx.fillStyle = isDark
+        ctx.fillStyle = dark
           ? `rgba(180,185,255,${s.o})`
           : `rgba(99,102,241,${s.o * 0.5})`;
 
@@ -120,18 +118,20 @@ function Constellation({ dark }: { dark: boolean }) {
   );
 }
 
+/* ---------------- PROJECTS ---------------- */
+
 const projects = [
   {
     title: "God’s Word",
     tag: "Conversational AI · RAG · LLM",
 
     description:
-      "Conversational AI system built with a custom RAG pipeline using Python, ChromaDB, and Llama 3. I designed the ingestion, chunking, semantic retrieval, prompt construction, evaluation, multi-turn memory, and Telugu sermon translation workflow across 31,100+ documents.",
+      "Conversational AI system built with a custom RAG pipeline using Python, ChromaDB, and Llama 3. Designed the ingestion, chunking, semantic retrieval, prompt construction, evaluation, multi-turn memory, and Telugu sermon translation workflow across 31,100+ documents.",
 
     chips: [
-      "Custom RAG pipeline",
-      "Semantic retrieval",
-      "LLM evaluation",
+      "Custom RAG Pipeline",
+      "Semantic Retrieval",
+      "LLM Evaluation",
     ],
 
     stack: [
@@ -150,12 +150,12 @@ const projects = [
     tag: "Multi-Agent RAG · Financial AI",
 
     description:
-      "Multi-agent RAG system for researching SEC filings. It uses specialized router, retriever, analyst, and verifier agents to find relevant information, analyze filings, and verify responses before returning the final answer.",
+      "Multi-agent RAG system for researching SEC filings. Specialized router, retriever, analyst, and verifier agents work together to retrieve financial information, analyze filings, and verify responses before producing the final answer.",
 
     chips: [
-      "Multi-agent workflow",
-      "RAG over SEC filings",
-      "Automated evaluation",
+      "Multi-Agent Workflow",
+      "RAG over SEC Filings",
+      "Automated Evaluation",
     ],
 
     stack: [
@@ -171,18 +171,52 @@ const projects = [
   },
 ];
 
+/* ---------------- SKILLS ---------------- */
+
 const skills = [
   {
-    label: "AI / LLM",
+    label: "Languages",
     hot: true,
     items: [
-      "RAG Pipeline Design",
+      "Python",
+      "Java",
+      "JavaScript",
+      "TypeScript",
+      "C",
+      "C++",
+      "SQL",
+      "Bash / Shell",
+    ],
+  },
+
+  {
+    label: "Backend / APIs",
+    hot: true,
+    items: [
+      "FastAPI",
+      "Spring Boot",
+      "Node.js",
+      "Django",
+      "Flask",
+      "REST APIs",
+      "Pytest",
+    ],
+  },
+
+  {
+    label: "AI / GenAI",
+    hot: true,
+    items: [
+      "RAG",
+      "Multi-Agent Systems",
       "LLM Integration",
       "Embeddings",
-      "Evaluation Frameworks",
+      "Semantic Retrieval",
       "Prompt Engineering",
-      "Agentic Systems",
-      "Ollama",
+      "LLM Evaluation",
+      "Hugging Face",
+      "LangChain",
+      "LlamaIndex",
     ],
   },
 
@@ -190,24 +224,25 @@ const skills = [
     label: "Machine Learning",
     hot: false,
     items: [
+      "PyTorch",
       "TensorFlow",
       "Scikit-learn",
-      "Keras",
       "Neural Networks",
       "Model Evaluation",
     ],
   },
 
   {
-    label: "Languages",
+    label: "Databases",
     hot: false,
-    items: ["Python", "TypeScript", "Java", "SQL"],
-  },
-
-  {
-    label: "Backend",
-    hot: false,
-    items: ["FastAPI", "Spring Boot", "REST API", "PostgreSQL"],
+    items: [
+      "PostgreSQL",
+      "MySQL",
+      "MongoDB",
+      "Cassandra",
+      "Snowflake",
+      "ChromaDB",
+    ],
   },
 
   {
@@ -216,9 +251,26 @@ const skills = [
     items: [
       "AWS",
       "Docker",
+      "Kubernetes",
       "Terraform",
       "GitHub Actions",
+      "CI/CD",
       "Linux",
+      "Azure",
+      "GCP",
+    ],
+  },
+
+  {
+    label: "Frontend",
+    hot: false,
+    items: [
+      "React",
+      "Next.js",
+      "HTML",
+      "CSS",
+      "JavaScript",
+      "TypeScript",
     ],
   },
 ];
@@ -269,7 +321,8 @@ export default function Home() {
           zIndex: 1,
         }}
       >
-        {/* NAV */}
+        {/* ---------------- NAV ---------------- */}
+
         <nav
           style={{
             borderBottom: `1px solid ${t.border}`,
@@ -340,7 +393,8 @@ export default function Home() {
           </div>
         </nav>
 
-        {/* HERO */}
+        {/* ---------------- HERO ---------------- */}
+
         <header
           style={{
             padding: "72px 32px 60px",
@@ -567,7 +621,8 @@ export default function Home() {
           </Reveal>
         </header>
 
-        {/* PROJECTS */}
+        {/* ---------------- PROJECTS ---------------- */}
+
         <section
           id="projects"
           style={{
@@ -742,7 +797,8 @@ export default function Home() {
           </div>
         </section>
 
-        {/* SKILLS */}
+        {/* ---------------- SKILLS ---------------- */}
+
         <section
           id="skills"
           style={{
@@ -767,7 +823,7 @@ export default function Home() {
             style={{
               display: "flex",
               flexDirection: "column",
-              gap: 16,
+              gap: 18,
             }}
           >
             {skills.map((g, i) => (
@@ -775,8 +831,8 @@ export default function Home() {
                 <div
                   style={{
                     display: "grid",
-                    gridTemplateColumns: "130px 1fr",
-                    gap: 12,
+                    gridTemplateColumns: "140px 1fr",
+                    gap: 14,
                     alignItems: "start",
                   }}
                 >
@@ -797,7 +853,7 @@ export default function Home() {
                     style={{
                       display: "flex",
                       flexWrap: "wrap",
-                      gap: 5,
+                      gap: 6,
                     }}
                   >
                     {g.items.map((item, j) => {
@@ -810,15 +866,19 @@ export default function Home() {
                             fontSize: 11,
                             padding: "4px 10px",
                             borderRadius: 6,
+
                             border: `1px solid ${
                               hi ? t.accent + "44" : t.border
                             }`,
+
                             color: hi ? t.accent : t.muted,
+
                             background: hi
                               ? dark
                                 ? "rgba(129,140,248,0.08)"
                                 : "rgba(79,70,229,0.06)"
                               : t.card,
+
                             fontWeight: hi ? 500 : 400,
                           }}
                         >
@@ -833,7 +893,8 @@ export default function Home() {
           </div>
         </section>
 
-        {/* PUBLICATION */}
+        {/* ---------------- PUBLICATION ---------------- */}
+
         <section
           style={{
             padding: "44px 32px",
@@ -890,7 +951,8 @@ export default function Home() {
           </Reveal>
         </section>
 
-        {/* CONTACT */}
+        {/* ---------------- CONTACT ---------------- */}
+
         <section
           id="contact"
           style={{
@@ -956,6 +1018,8 @@ export default function Home() {
             </div>
           </Reveal>
         </section>
+
+        {/* ---------------- FOOTER ---------------- */}
 
         <footer
           style={{
